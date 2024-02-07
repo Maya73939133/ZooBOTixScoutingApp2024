@@ -2,13 +2,36 @@
     <head>
         <title>Pit Scouting</title>
         <link href="zoobotix-logo-new.png" rel="icon">
+        <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
+        <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
+        <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     </head>
     <body>
         <div style="text-align: center;" name="Main Content">
             <img src="zoobotix-logo-new.png" width="50" height="50">
             <p style="font-size: xx-large; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Pit Scouting</p>
-            <a href="pit-scouting.html">Back to the main page</a>
+            <a href="index.html" style="font-size: x-large; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-decoration: none;">Back to the main page</a>
+            <!-- <py-script src="index.py"></py-script> -->
+
+            <!-- <table id="TableToExport">
+                <tr>
+                    <th></th>
+                    <th>This is a table</th>
+                </tr>
+                <tr>
+                    <td>That will be</td>
+                    <td>Exported to your files.</td>
+                </tr>
+            </table>
+            <button id="sheetjsexport"><b>Export as XLSX</b></button> -->
         </div>
-        <script src="index.js"></script>
+        <script>
+        document.getElementById("sheetjsexport").addEventListener('click', function() {
+            /* Create worksheet from HTML DOM TABLE */
+            var wb = XLSX.utils.table_to_book(document.getElementById("TableToExport"));
+            /* Export to file (start a download) */
+            XLSX.writeFile(wb, "scouting-sheet.xlsx");
+        });
+        </script>
     </body>
 </html>

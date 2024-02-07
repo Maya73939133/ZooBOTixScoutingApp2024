@@ -1,0 +1,33 @@
+<html>
+    <head>
+        <title>ZooBOTix 6002 Scouting App</title>
+        <link href="zoobotix-logo-new.png" rel="icon">
+        <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+        <style>
+            #TableToExport {
+                border-width:1px;
+            }
+        </style>
+    </head>
+    <body>
+        <table id="TableToExport">
+            <tr>
+                <th>Hi</th>
+                <th>Bye</th>
+            </tr>
+            <tr>
+                <td>100</td>
+                <td>-100</td>
+            </tr>
+        </table>
+        <button id="sheetjsexport"><b>Export as XLSX</b></button>
+        <script>
+            document.getElementById("sheetjsexport").addEventListener('click', function() {
+              /* Create worksheet from HTML DOM TABLE */
+              var wb = XLSX.utils.table_to_book(document.getElementById("TableToExport"));
+              /* Export to file (start a download) */
+              XLSX.writeFile(wb, "scouting-sheet.xlsx");
+            });
+        </script>
+    </body>
+</html>

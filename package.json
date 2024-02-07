@@ -1,0 +1,9 @@
+{
+    "name": "zoobotix-scouting-app",
+    "version": "1.0.0",
+    "author": "Shaurya Kushwaha <shaurya021013@gmail.com>",
+    "dependencies": {
+        "sheetjs": "^2.0.0",
+        "xlsx": "^0.18.5"
+    }
+}

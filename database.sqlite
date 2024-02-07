@@ -1,0 +1,3 @@
+CREATE TABLE datable (Name varchar(255), Age int)
+INSERT INTO datable VALUES ("Dragon", 10)
+INSERT INTO datable VALUES ("Lil' boi", 0)
