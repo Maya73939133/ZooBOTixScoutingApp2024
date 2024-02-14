@@ -58,7 +58,7 @@
             document.getElementById("scorein_box").innerHTML = document.querySelector(".scorein:checked").value;
             /* Create worksheet from HTML DOM TABLE */
             var wb = XLSX.utils.table_to_book(document.getElementById("TableToExport"));
-            /* Export to file (start a download) */
+            /* Export to file (start a downoad) */
             XLSX.writeFile(wb, "pit-scouting.xlsx");
         });
         </script>
