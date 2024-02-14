@@ -8,30 +8,102 @@
     </head>
     <body>
         <div style="text-align: center;" name="Main Content">
-            <img src="zoobotix-logo-new.png" width="50" height="50">
+            <a href="index.html"><img src="zoobotix-logo-new.png" width="50" height="50"></a>
             <p style="font-size: xx-large; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Pit Scouting</p>
-            <a href="index.html" style="font-size: x-large; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-decoration: none;">Back to the main page</a>
-            <!-- <py-script src="index.py"></py-script> -->
-
-            <!-- <table id="TableToExport">
+            <h2>Robot Info</h2>
+            <label>Team name: </label><input id="team_name"/><br/><br/>
+            <label>Type of chassis: </label><input id="chassis"/><br/><br/>
+            <label>Shooter mechanism: </label><input id="shooter"/><br/><br/>
+            <label>Intakes from: </label>
+                <select name="intake" id="intake">
+                    <option value="ground">Ground</option>
+                    <option value="source">Source</option>
+                    <option value="both">Both</option>
+                </select>
+                <br/><br/>
+            <label>Select all they can score in: </label><br/>
+                <input class="scorein" type="checkbox" value="speaker" name="scorein">
+                <label for="speaker">Speaker</label><br>
+                <input class="scorein" type="checkbox" value="amp" name="scorein">
+                <label for="amp">Amp</label><br>
+                <input class="scorein" type="checkbox" value="trap" name="scorein">
+                <label for="both">Trap</label><br/><br/>
+            <!-- <py-script src="tbaapi_test.py"></py-script> -->
+            <table id="TableToExport" style="display: none;">
                 <tr>
-                    <th></th>
-                    <th>This is a table</th>
+                    <th>Team Name</th>
+                    <th>Chassis Type</th>
+                    <th>Type of Shooter</th>
+                    <th>Intakes From</th>
+                    <th>They Can Score In..</th>
                 </tr>
                 <tr>
-                    <td>That will be</td>
-                    <td>Exported to your files.</td>
+                    <td id="team_name_box"></td>
+                    <td id="chassis_box"></td>
+                    <td id="shooter_box"></td>
+                    <td id="intake_box"></td>
+                    <td id="scorein_box"></td>
                 </tr>
             </table>
-            <button id="sheetjsexport"><b>Export as XLSX</b></button> -->
+            <button id="csvexport"><b>Export as CSV</b></button>
+            <!-- <button id="sheetjsexport"><b>Export as XLSX</b></button> -->
         </div>
+
         <script>
         document.getElementById("sheetjsexport").addEventListener('click', function() {
+            document.getElementById("team_name_box").innerHTML = document.getElementById("team_name").value;
+            document.getElementById("chassis_box").innerHTML = document.getElementById("chassis").value;
+            document.getElementById("shooter_box").innerHTML = document.getElementById("shooter").value;
+            document.getElementById("intake_box").innerHTML = document.getElementById("intake").value;
+            document.getElementById("scorein_box").innerHTML = document.querySelector(".scorein:checked").value;
             /* Create worksheet from HTML DOM TABLE */
             var wb = XLSX.utils.table_to_book(document.getElementById("TableToExport"));
             /* Export to file (start a download) */
-            XLSX.writeFile(wb, "scouting-sheet.xlsx");
+            XLSX.writeFile(wb, "pit-scouting.xlsx");
         });
+        </script>
+        <script>
+            function downloadTableAsCSV(table) {
+                document.getElementById("team_name_box").innerHTML = document.getElementById("team_name").value;
+                document.getElementById("chassis_box").innerHTML = document.getElementById("chassis").value;
+                document.getElementById("shooter_box").innerHTML = document.getElementById("shooter").value;
+                document.getElementById("intake_box").innerHTML = document.getElementById("intake").value;
+
+                function getCheckedValues() {
+                    const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+                    const checkedValues = Array.from(checkedBoxes).map(checkbox => checkbox.value);
+                    return checkedValues; // Output: ["value1", "value2", ...]
+                }
+
+                document.getElementById("scorein_box").innerHTML = getCheckedValues();
+
+                const csvData = [];
+
+                // Get table headers
+                const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent);
+                csvData.push(headers.join(','));
+
+                // Get table rows
+                const rows = Array.from(table.querySelectorAll('tr'));
+                rows.forEach(row => {
+                    const cells = Array.from(row.querySelectorAll('td'));
+                    const cellValues = cells.map(cell => cell.textContent.trim()).join(',');
+                    csvData.push(cellValues);
+                });
+
+                const csvString = csvData.join('\n');
+                const blob = new Blob([csvString], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'table.csv';
+                link.click();
+                URL.revokeObjectURL(url);
+            }
+
+            document.getElementById("csvexport").addEventListener("click", function() {
+                    downloadTableAsCSV(document.getElementById("TableToExport"))
+            })
         </script>
     </body>
 </html>
