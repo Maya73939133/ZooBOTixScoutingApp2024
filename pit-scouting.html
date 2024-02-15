@@ -46,10 +46,11 @@
                 </tr>
             </table>
             <button id="csvexport"><b>Export as CSV</b></button>
+            <button id="adddata"><b>Add Data</b></button>
             <!-- <button id="sheetjsexport"><b>Export as XLSX</b></button> -->
         </div>
 
-        <script>
+        <!-- <script>
         document.getElementById("sheetjsexport").addEventListener('click', function() {
             document.getElementById("team_name_box").innerHTML = document.getElementById("team_name").value;
             document.getElementById("chassis_box").innerHTML = document.getElementById("chassis").value;
@@ -61,9 +62,17 @@
             /* Export to file (start a downoad) */
             XLSX.writeFile(wb, "pit-scouting.xlsx");
         });
-        </script>
+        </script> -->
         <script>
-            function downloadTableAsCSV(table) {
+            csvData = [];
+
+            // Get table headers
+            function getHeaders(table) {
+                const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent);
+                csvData.push(headers.join(','));
+            }
+
+            function addData(table) {
                 document.getElementById("team_name_box").innerHTML = document.getElementById("team_name").value;
                 document.getElementById("chassis_box").innerHTML = document.getElementById("chassis").value;
                 document.getElementById("shooter_box").innerHTML = document.getElementById("shooter").value;
@@ -77,12 +86,6 @@
 
                 document.getElementById("scorein_box").innerHTML = getCheckedValues();
 
-                const csvData = [];
-
-                // Get table headers
-                const headers = Array.from(table.querySelectorAll('th')).map(th => th.textContent);
-                csvData.push(headers.join(','));
-
                 // Get table rows
                 const rows = Array.from(table.querySelectorAll('tr'));
                 rows.forEach(row => {
@@ -90,8 +93,9 @@
                     const cellValues = cells.map(cell => cell.textContent.trim()).join(',');
                     csvData.push(cellValues);
                 });
-
-                const csvString = csvData.join('\n');
+            }
+            function downloadTableAsCSV(theCsvData) {
+                const csvString = theCsvData.join('\n');
                 const blob = new Blob([csvString], { type: 'text/csv' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
@@ -100,9 +104,15 @@
                 link.click();
                 URL.revokeObjectURL(url);
             }
+            
+            getHeaders(document.getElementById("TableToExport"))
+
+            document.getElementById("adddata").addEventListener("click", function() {
+                addData(document.getElementById("TableToExport"))
+            })
 
             document.getElementById("csvexport").addEventListener("click", function() {
-                    downloadTableAsCSV(document.getElementById("TableToExport"))
+                    downloadTableAsCSV(csvData)
             })
         </script>
     </body>
