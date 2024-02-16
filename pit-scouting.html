@@ -93,8 +93,10 @@
                     const cellValues = cells.map(cell => cell.textContent.trim()).join(',');
                     csvData.push(cellValues);
                 });
+                console.log(csvData)
             }
             function downloadTableAsCSV(theCsvData) {
+                
                 const csvString = theCsvData.join('\n');
                 const blob = new Blob([csvString], { type: 'text/csv' });
                 const url = URL.createObjectURL(blob);
