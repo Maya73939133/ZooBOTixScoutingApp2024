@@ -81,7 +81,7 @@
                 function getCheckedValues() {
                     const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
                     const checkedValues = Array.from(checkedBoxes).map(checkbox => checkbox.value);
-                    return checkedValues; // Output: ["value1", "value2", ...]
+                    return checkedValues; // Output: ["value1", "value2", ..]
                 }
 
                 document.getElementById("scorein_box").innerHTML = getCheckedValues();
