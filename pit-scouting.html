@@ -2,8 +2,8 @@
     <head>
         <title>Pit Scouting</title>
         <link href="zoobotix-logo-new.png" rel="icon">
-        <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
-        <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
+        <!-- <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
+        <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script> -->
         <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
     </head>
     <body>
@@ -42,7 +42,6 @@
                     <td id="chassis_box"></td>
                     <td id="shooter_box"></td>
                     <td id="intake_box"></td>
-                    <td id="scorein_box"></td>
                 </tr>
             </table>
             <button id="csvexport"><b>Export as CSV</b></button>
@@ -84,8 +83,6 @@
                     return checkedValues; // Output: ["value1", "value2", ..]
                 }
 
-                document.getElementById("scorein_box").innerHTML = getCheckedValues();
-
                 // Get table rows
                 const rows = Array.from(table.querySelectorAll('tr'));
                 rows.forEach(row => {
@@ -93,6 +90,7 @@
                     const cellValues = cells.map(cell => cell.textContent.trim()).join(',');
                     csvData.push(cellValues);
                 });
+                csvData[2] += ",(" + String(getCheckedValues()) + ")"
                 console.log(csvData)
             }
             function downloadTableAsCSV(theCsvData) {
