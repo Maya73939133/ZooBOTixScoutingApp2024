@@ -43,6 +43,27 @@
                 background-color: #FF8210;
                 color: white;
             }
+
+            #camera-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #video {
+                width: 320px;
+                height: 240px;
+            }
+
+            #capture-button {
+                margin-top: 10px;
+                padding: 5px 10px;
+                border: none;
+                background-color: #FF8210;
+                color: white;
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -53,7 +74,7 @@
             <div style="text-align: center; color: #FF8210; border-color: #FF8210" name="Robot Info" id="robotinfo" style="display: none;" class="closed">
                 <h2>Robot Info</h2>
                 <label>Team name: </label><input id="team_name"/><br/><br/>
-                <label>Type of chassis: </label><input id="chassis"/><br/><br/>
+                <label>Type of drive (e.g swerve, mecanum, etc.): </label><input id="chassis"/><br/><br/>
                 <label>Shooter mechanism: </label><input id="shooter"/><br/><br/>
                 <label>Intakes from: </label>
                 <select name="intake" id="intake">
@@ -69,7 +90,6 @@
                     <label for="amp">Amp</label><br>
                     <input class="scorein" type="checkbox" value="trap" name="scorein">
                     <label for="both">Trap</label><br/><br/>
-                <!-- <py-script src="tbaapi_test.py"></py-script> -->
                 <table id="TableToExport" style="display: none;">
                     <tr>
                         <th>Team Name</th>
@@ -85,12 +105,16 @@
                         <td id="intake_box"></td>
                     </tr>
                 </table>
+                <div id="camera-container">
+                    <video id="video" autoplay playsinline></video>
+                    <button id="capture-button">Capture</button>
+                </div>
+                <br/>
                 <button id="csvexport"><b>Export as CSV</b></button>
                 <button id="adddata"><b>Add Data</b></button>
-                <!-- <button id="sheetjsexport"><b>Export as XLSX</b></button> -->
             </div>
             <br/>
-            <button id="togglerobotperformance">Open Robot Performance ↓</button>
+            <button id="togglerobotperformance" onclick="playSound('camera.mp3')">Open Robot Performance ↓</button>
         </div>
         <div style="text-align: center;" name="Robot Info" id="robotinfo" style="display: none;" class="closed">
             <h2>Robot Performance</h2>
@@ -108,6 +132,40 @@
                 togglerobotinfo.innerHTML = "Open Robot Info ↓"
               }
             });
+
+
+            const video = document.getElementById('video');
+            const captureButton = document.getElementById('capture-button');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+                captureButton.addEventListener('click', () => {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0);
+                const imageData = canvas.toDataURL('image/png');
+                console.log('Image captured!');
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = imageData;
+                downloadLink.download = document.getElementById("team_name").value + '.png'; // Set desired filename
+                downloadLink.click();
+
+                // Optionally, remove or hide the download link after usage
+                downloadLink.remove();
+                });
+            })
+            .catch(error => {
+                console.error('Error accessing camera:', error);
+            });
+
+            function playSound(soundFile) {
+                const audio = new Audio(soundFile);
+                audio.play();
+            }
         </script>
         </script>
         <script>
