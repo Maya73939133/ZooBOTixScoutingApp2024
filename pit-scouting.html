@@ -2,66 +2,114 @@
     <head>
         <title>Pit Scouting</title>
         <link href="zoobotix-logo-new.png" rel="icon">
-        <!-- <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
-        <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script> -->
+        <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
+        <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
         <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+        <style>
+            body {
+                background-color: #a44f00;
+            }
+            #robotinfo {
+              max-height: 0;
+              overflow: hidden;
+              transition: max-height 0.5s ease-in-out;
+            }
+        
+            #robotinfo.open {
+              max-height: 1000px; /* Adjust height as needed */
+            }
+
+            #togglerobotinfo {
+                background-color: #FF8210; /* Change color as desired */
+                color: white;
+                padding: 10px 20px;
+                border: none; /* Remove default border */
+                border-radius: 5px; /* Add rounded corners */
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            #togglerobotperformance {
+                background-color: #FF8210; /* Change color as desired */
+                color: white;
+                padding: 10px 20px;
+                border: none; /* Remove default border */
+                border-radius: 5px; /* Add rounded corners */
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            input, button, select {
+                background-color: #FF8210;
+                color: white;
+            }
+        </style>
     </head>
     <body>
-        <div style="text-align: center;" name="Main Content">
+        <div style="text-align: center;">
             <a href="index.html"><img src="zoobotix-logo-new.png" width="50" height="50"></a>
-            <p style="font-size: xx-large; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Pit Scouting</p>
-            <h2>Robot Info</h2>
-            <label>Team name: </label><input id="team_name"/><br/><br/>
-            <label>Type of chassis: </label><input id="chassis"/><br/><br/>
-            <label>Shooter mechanism: </label><input id="shooter"/><br/><br/>
-            <label>Intakes from: </label>
+            <p style="font-size: xx-large; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: #FF8210">Pit Scouting</p>
+            <button id="togglerobotinfo">Open Robot Info ↓</button><br/>
+            <div style="text-align: center; color: #FF8210; border-color: #FF8210" name="Robot Info" id="robotinfo" style="display: none;" class="closed">
+                <h2>Robot Info</h2>
+                <label>Team name: </label><input id="team_name"/><br/><br/>
+                <label>Type of chassis: </label><input id="chassis"/><br/><br/>
+                <label>Shooter mechanism: </label><input id="shooter"/><br/><br/>
+                <label>Intakes from: </label>
                 <select name="intake" id="intake">
                     <option value="ground">Ground</option>
                     <option value="source">Source</option>
                     <option value="both">Both</option>
                 </select>
                 <br/><br/>
-            <label>Select all they can score in: </label><br/>
-                <input class="scorein" type="checkbox" value="speaker" name="scorein">
-                <label for="speaker">Speaker</label><br>
-                <input class="scorein" type="checkbox" value="amp" name="scorein">
-                <label for="amp">Amp</label><br>
-                <input class="scorein" type="checkbox" value="trap" name="scorein">
-                <label for="both">Trap</label><br/><br/>
-            <!-- <py-script src="tbaapi_test.py"></py-script> -->
-            <table id="TableToExport" style="display: none;">
-                <tr>
-                    <th>Team Name</th>
-                    <th>Chassis Type</th>
-                    <th>Type of Shooter</th>
-                    <th>Intakes From</th>
-                    <th>They Can Score In..</th>
-                </tr>
-                <tr>
-                    <td id="team_name_box"></td>
-                    <td id="chassis_box"></td>
-                    <td id="shooter_box"></td>
-                    <td id="intake_box"></td>
-                </tr>
-            </table>
-            <button id="csvexport"><b>Export as CSV</b></button>
-            <button id="adddata"><b>Add Data</b></button>
-            <!-- <button id="sheetjsexport"><b>Export as XLSX</b></button> -->
+                <label>Select all they can score in: </label><br/>
+                    <input class="scorein" type="checkbox" value="speaker" name="scorein">
+                    <label for="speaker">Speaker</label><br>
+                    <input class="scorein" type="checkbox" value="amp" name="scorein">
+                    <label for="amp">Amp</label><br>
+                    <input class="scorein" type="checkbox" value="trap" name="scorein">
+                    <label for="both">Trap</label><br/><br/>
+                <!-- <py-script src="tbaapi_test.py"></py-script> -->
+                <table id="TableToExport" style="display: none;">
+                    <tr>
+                        <th>Team Name</th>
+                        <th>Chassis Type</th>
+                        <th>Type of Shooter</th>
+                        <th>Intakes From</th>
+                        <th>They Can Score In..</th>
+                    </tr>
+                    <tr>
+                        <td id="team_name_box"></td>
+                        <td id="chassis_box"></td>
+                        <td id="shooter_box"></td>
+                        <td id="intake_box"></td>
+                    </tr>
+                </table>
+                <button id="csvexport"><b>Export as CSV</b></button>
+                <button id="adddata"><b>Add Data</b></button>
+                <!-- <button id="sheetjsexport"><b>Export as XLSX</b></button> -->
+            </div>
+            <br/>
+            <button id="togglerobotperformance">Open Robot Performance ↓</button>
         </div>
-
-        <!-- <script>
-        document.getElementById("sheetjsexport").addEventListener('click', function() {
-            document.getElementById("team_name_box").innerHTML = document.getElementById("team_name").value;
-            document.getElementById("chassis_box").innerHTML = document.getElementById("chassis").value;
-            document.getElementById("shooter_box").innerHTML = document.getElementById("shooter").value;
-            document.getElementById("intake_box").innerHTML = document.getElementById("intake").value;
-            document.getElementById("scorein_box").innerHTML = document.querySelector(".scorein:checked").value;
-            /* Create worksheet from HTML DOM TABLE */
-            var wb = XLSX.utils.table_to_book(document.getElementById("TableToExport"));
-            /* Export to file (start a downoad) */
-            XLSX.writeFile(wb, "pit-scouting.xlsx");
-        });
-        </script> -->
+        <div style="text-align: center;" name="Robot Info" id="robotinfo" style="display: none;" class="closed">
+            <h2>Robot Performance</h2>
+        </div>
+        <script>
+            const robotInfo = document.getElementById('robotinfo');
+            const togglerobotinfo = document.getElementById('togglerobotinfo');
+        
+            togglerobotinfo.addEventListener('click', () => {
+              if (robotInfo.className === "closed") {
+                robotInfo.className = "open";
+                togglerobotinfo.innerHTML = "Close Robot Info ↑"
+              } else {
+                robotInfo.className = "closed";
+                togglerobotinfo.innerHTML = "Open Robot Info ↓"
+              }
+            });
+        </script>
+        </script>
         <script>
             csvData = [];
 
