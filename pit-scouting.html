@@ -147,7 +147,7 @@
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0);
                 const imageData = canvas.toDataURL('image/png');
-                playSound('camera.mp3')
+                playSound('camera.wav')
                 console.log('Image captured!');
                 const downloadLink = document.createElement('a');
                 downloadLink.href = imageData;
