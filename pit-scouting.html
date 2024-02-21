@@ -2,9 +2,9 @@
     <head>
         <title>Pit Scouting</title>
         <link href="zoobotix-logo-new.png" rel="icon">
-        <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
+        <!-- <link rel="stylesheet" href="https://pyscript.net/releases/2022.12.1/pyscript.css" />
         <script defer src="https://pyscript.net/releases/2022.12.1/pyscript.js"></script>
-        <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+        <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script> -->
         <style>
             body {
                 background-color: #a44f00;
@@ -114,7 +114,7 @@
                 <button id="adddata"><b>Add Data</b></button>
             </div>
             <br/>
-            <button id="togglerobotperformance" onclick="playSound('camera.mp3')">Open Robot Performance ↓</button>
+            <button id="togglerobotperformance">Open Robot Performance ↓</button>
         </div>
         <div style="text-align: center;" name="Robot Info" id="robotinfo" style="display: none;" class="closed">
             <h2>Robot Performance</h2>
@@ -147,8 +147,8 @@
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0);
                 const imageData = canvas.toDataURL('image/png');
+                playSound('camera.mp3')
                 console.log('Image captured!');
-
                 const downloadLink = document.createElement('a');
                 downloadLink.href = imageData;
                 downloadLink.download = document.getElementById("team_name").value + '.png'; // Set desired filename
