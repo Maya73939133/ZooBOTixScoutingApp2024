@@ -7,9 +7,10 @@
         <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script> -->
         <style>
             body {
-                background-color: #a44f00;
+                background-color: #6b3400;
                 font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
             }
+
             #robotinfo {
               max-height: 0;
               overflow: hidden;
@@ -17,6 +18,16 @@
             }
         
             #robotinfo.open {
+              max-height: 1000px; /* Adjust height as needed */
+            }
+
+            #robotperformance {
+              max-height: 0;
+              overflow: hidden;
+              transition: max-height 0.5s ease-in-out;
+            }
+        
+            #robotperformance.open2 {
               max-height: 1000px; /* Adjust height as needed */
             }
 
@@ -118,13 +129,16 @@
             </div>
             <br/>
             <button id="togglerobotperformance">Open Robot Performance ↓</button>
-        </div>
-        <div style="text-align: center;" name="Robot Info" id="robotinfo" style="display: none;" class="closed">
-            <h2>Robot Performance</h2>
+            <div style="text-align: center; color: #FF8210; border-color: #FF8210" name="Robot Performance" id="robotperformance" style="display: none;" class="closed2">
+                <h2>Robot Performance</h2>
+            </div>
         </div>
         <script>
             const robotInfo = document.getElementById('robotinfo');
             const togglerobotinfo = document.getElementById('togglerobotinfo');
+
+            const robotPerformance = document.getElementById('robotperformance');
+            const togglerobotperformance = document.getElementById('togglerobotperformance');
         
             togglerobotinfo.addEventListener('click', () => {
               if (robotInfo.className === "closed") {
@@ -133,6 +147,16 @@
               } else {
                 robotInfo.className = "closed";
                 togglerobotinfo.innerHTML = "Open Robot Info ↓"
+              }
+            });
+        
+            togglerobotperformance.addEventListener('click', () => {
+              if (robotPerformance.className === "closed2") {
+                robotPerformance.className = "open2";
+                togglerobotperformance.innerHTML = "Close Robot Performance ↑"
+              } else {
+                robotPerformance.className = "closed2";
+                togglerobotperformance.innerHTML = "Open Robot Performance ↓"
               }
             });
 
