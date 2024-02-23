@@ -41,7 +41,7 @@
                 cursor: pointer;
             }
 
-            #togglerobotperformance {
+            #togglebasicinfo {
                 background-color: #FF8210; /* Change color as desired */
                 color: white;
                 padding: 10px 20px;
@@ -83,12 +83,17 @@
         <div style="text-align: center;">
             <a href="/"><img src="zoobotix-logo-new.png" width="50" height="50"></a>
             <p style="font-size: xx-large; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color: #FF8210">Pit Scouting</p>
+            <button id="togglebasicinfo">Open Basic Info ↓</button>
+            <div style="text-align: center; color: #FF8210; border-color: #FF8210" name="Robot Performance" id="robotperformance" style="display: none;" class="closed2">
+                <h2>Basic Info</h2>
+                <label>Team name: </label><input id="team_name" type="text" inputmode="text"/><br/><br/>
+            </div>
+            <br>
             <button id="togglerobotinfo">Open Robot Info ↓</button><br/>
             <div style="text-align: center; color: #FF8210; border-color: #FF8210" name="Robot Info" id="robotinfo" style="display: none;" class="closed">
                 <h2>Robot Info</h2>
-                <label>Team name: </label><input id="team_name"/><br/><br/>
-                <label>Type of drive (e.g swerve, mecanum, etc.): </label><input id="chassis"/><br/><br/>
-                <label>Shooter mechanism: </label><input id="shooter"/><br/><br/>
+                <label>Type of drive (e.g swerve, mecanum, etc.): </label><input id="chassis" type="text" inputmode="text"/><br/><br/>
+                <label>Shooter mechanism: </label><input id="shooter" type="text" inputmode="text"/><br/><br/>
                 <label>Intakes from: </label>
                 <select name="intake" id="intake">
                     <option value="ground">Ground</option>
@@ -128,17 +133,13 @@
                 <button id="adddata"><b>Add Data</b></button>
             </div>
             <br/>
-            <button id="togglerobotperformance">Open Robot Performance ↓</button>
-            <div style="text-align: center; color: #FF8210; border-color: #FF8210" name="Robot Performance" id="robotperformance" style="display: none;" class="closed2">
-                <h2>Robot Performance</h2>
-            </div>
         </div>
         <script>
             const robotInfo = document.getElementById('robotinfo');
             const togglerobotinfo = document.getElementById('togglerobotinfo');
 
             const robotPerformance = document.getElementById('robotperformance');
-            const togglerobotperformance = document.getElementById('togglerobotperformance');
+            const togglebasicinfo = document.getElementById('togglebasicinfo');
         
             togglerobotinfo.addEventListener('click', () => {
               if (robotInfo.className === "closed") {
@@ -150,13 +151,13 @@
               }
             });
         
-            togglerobotperformance.addEventListener('click', () => {
+            togglebasicinfo.addEventListener('click', () => {
               if (robotPerformance.className === "closed2") {
                 robotPerformance.className = "open2";
-                togglerobotperformance.innerHTML = "Close Robot Performance ↑"
+                togglebasicinfo.innerHTML = "Close Basic Info ↑"
               } else {
                 robotPerformance.className = "closed2";
-                togglerobotperformance.innerHTML = "Open Robot Performance ↓"
+                togglebasicinfo.innerHTML = "Open Basic Info ↓"
               }
             });
 
